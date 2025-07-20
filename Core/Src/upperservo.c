@@ -10,10 +10,11 @@
 #define maxspeed        300000
 #define maxAcceleration 70000
 gantrystate mygantry;
-float Wheel_StartPos[5];
+float Wheel_StartPos[5]={0};
 TickType_t WheelCorrect_StartTick;
 TickType_t WheelCorrect_NowTick;
-
+TickType_t WheelCorrect_StartTick_2;
+TickType_t WheelCorrect_NowTick_2;
 void upperservotask(void const *argument)
 {
     /* USER CODE BEGIN upperservotask */
@@ -21,13 +22,17 @@ void upperservotask(void const *argument)
     mygantry.gantrypos.y = 0;
     osDelay(300);
      WheelCorrect_StartTick = xTaskGetTickCount();
+     WheelCorrect_StartTick_2 = xTaskGetTickCount();
       Wheel_StartPos[1]=hDJI[1].posPID.fdb;
     Wheel_StartPos[2]=hDJI[2].posPID.fdb;
     /* Infinite loop */
     for (;;) {
          WheelCorrect_NowTick     = xTaskGetTickCount();
+         WheelCorrect_NowTick_2     = xTaskGetTickCount();
         TickType_t WheelCorrect_ElapsedTick = WheelCorrect_NowTick - WheelCorrect_StartTick;
+        TickType_t WheelCorrect_ElapsedTick_2 = WheelCorrect_NowTick_2 - WheelCorrect_StartTick_2;
         float timeSec                       = (WheelCorrect_ElapsedTick / (1000.0)); // 获取当前时间/s
+        float timeSec_2                       = (WheelCorrect_ElapsedTick_2/ (1000.0)); // 获取当前时间/s
          VelocityPlanning( Wheel_StartPos[1],
                              maxspeed ,
                              maxAcceleration,
@@ -37,8 +42,13 @@ void upperservotask(void const *argument)
                              maxspeed ,
                              maxAcceleration,
                              - mygantry.gantrypos.y * 8191, timeSec,
-                             &hDJI[2].posPID.ref);   
-        // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的
+                             &hDJI[2].posPID.ref);
+        VelocityPlanning( Wheel_StartPos[3],
+                             maxspeed ,
+                             maxAcceleration,
+                             mygantry.gantrypos.x*8191, timeSec_2,
+                             &hDJI[3].posPID.ref);   
+        // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
         // STP_23L_Decode(Rxbuffer_2, &Lidar2);//激光是短轴的
         positionServo(mygantry.gantrypos.x, mygantry.Motor_X);
         positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);//

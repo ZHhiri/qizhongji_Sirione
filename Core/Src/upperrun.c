@@ -1719,7 +1719,7 @@ void uppergoingtask(void const *argument)
     //  osDelay(2000);
 
 //   mygantry.gantrypos.y =y_stack_2345 ;
-    
+
 //     for ( ; ; )
 //     {
 //         /* code */
@@ -1766,10 +1766,15 @@ void uppergoingtask(void const *argument)
             if (stateflag == 0) {
                 // 前往(x_box1,0,z_highest,0)
                 if (runflag == 0) {
-                    osDelay(500);
+                    
                     mygantry.gantrypos.z = z_highest;
                     mygantry.gantrypos.x = x_box;
-                    motor_controlmode(&mi_motor[0], 0, yaw_0, 0, 1.5, 0.6);
+					
+					  for (uint16_t i = 0; i < 500; i++) {
+                        motor_controlmode(&mi_motor[0], 0, yaw_0, 0, 1.5, 0.6);
+                        osDelay(1);
+                    }
+                    
                     //float diff_z         = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
                     float diff_x         = fabs(mygantry.gantrypos.x * 8191 - hDJI[3].AxisData.AxisAngle_inDegree);
                     if ( diff_x < 400) {
@@ -1820,7 +1825,7 @@ void uppergoingtask(void const *argument)
 
                 // 进行抓取动作并进行下一个抓取动作的准备动作
                 if (runflag == 5) {
-                    osDelay(500);
+                    //osDelay(500);
                     mygantry.gantrypos.z = z_low; // 抓取完毕后抬高
                     float diff_z         = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
                     if (diff_z < 500) {
@@ -1956,14 +1961,15 @@ void uppergoingtask(void const *argument)
                     
                     
                     mygantry.gantrypos.z = z_high;
-                    osDelay(500);
-                    mygantry.gantrypos.x = 0.0;
-                    
-                    float diff_x = fabs(mygantry.gantrypos.x * 8191 - hDJI[3].AxisData.AxisAngle_inDegree);
+					mygantry.gantrypos.y = 0.0;
+					 for (uint16_t i = 0; i < 1500; i++) {
+                        motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 1.6, 0.83);
+                        osDelay(1);
+                    }                 
                     float diff_z = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
 
                     // float diff_yaw         = fabs(mygantry.gantrypos.yaw * 8191 - hDJI[0].AxisData.AxisAngle_inDegree);
-                    if (diff_x < 400  && diff_z < 500) {
+                    if ( diff_z < 500) {
                         runflag = 16;
                          WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
@@ -1973,10 +1979,7 @@ void uppergoingtask(void const *argument)
 
                 if (runflag == 16) {
 
-                    for (uint16_t i = 0; i < 2000; i++) {
-                        motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 1.6, 0.83);
-                        osDelay(1);
-                    }
+                   
                     if (flag == 0) {
                         WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
@@ -2001,14 +2004,7 @@ void uppergoingtask(void const *argument)
 
                     if (diff_z < 500) {
                         runflag = 18;
-                        
-                    }
-                }
-
-                if (runflag == 18) {
-
-                   
-                    if (mapping[idx1]==0)
+                          if (mapping[idx1]==0)
                         {
                             __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1100); // Open
                             /* code */
@@ -2018,10 +2014,18 @@ void uppergoingtask(void const *argument)
                             __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 1100); // Open  
                         }
                     osDelay(500);
+					WheelCorrect_StartTick = WheelCorrect_NowTick;
+                        Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
+                        Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
+                    }
+                }
+
+                if (runflag == 18) {
+                 
                     // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 1100); // Open
                     mygantry.gantrypos.z = z_highest;
                     osDelay(500);
-                    mygantry.gantrypos.x = 0.0;
+                    mygantry.gantrypos.y = 0.0;
                     float diff_z = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
                     
                     if (diff_z < 500)

@@ -64,14 +64,14 @@ void DJI_Init(){
 
 	//hDJI.4 = 升降电机
 		hDJI[4].speedPID.KP = 5;
-        hDJI[4].speedPID.KI = 0.003;
+        hDJI[4].speedPID.KI = 4;
         hDJI[4].speedPID.KD = 0.00001;
         hDJI[4].speedPID.outputMax = 16000;
 
         hDJI[4].posPID.KP = 1.7f;
         hDJI[4].posPID.KI = 0.9f;
         hDJI[4].posPID.KD = 0.0005f;
-        hDJI[4].posPID.outputMax = 2000;
+        hDJI[4].posPID.outputMax = 6000;
 
 
 	for (int i = 0; i < 8; i++)

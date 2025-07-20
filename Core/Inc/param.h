@@ -26,6 +26,8 @@ extern float Wheel_StartPos[5];
 extern gantrystate mygantry; 
 extern TickType_t WheelCorrect_NowTick ;
 extern TickType_t WheelCorrect_StartTick;
+extern  TickType_t WheelCorrect_StartTick_2;
+extern  TickType_t WheelCorrect_NowTick_2;
 //extern uint8_t usart1_rx[1];
 extern uint8_t usart3_rx[1];
 
