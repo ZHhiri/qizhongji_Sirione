@@ -15,7 +15,6 @@ void StartDefaultTask(void const * argument)
   gantry_Motor_init(); 
   osDelay(30);
   init_cybergear(&mi_motor[0], 0x7F, Motion_mode);
-  
   set_zeropos_cybergear(&mi_motor[0]);
   osDelay(30);
   HAL_UART_Receive_IT(&huart3, usart3_rx, 1);
@@ -44,10 +43,10 @@ void StartDefaultTask(void const * argument)
 
 
     //  }
-  //     float err = hDJI[1].posPID.cur_error; // Get the current angle of each motor
-  //     float out = hDJI[1].speedPID.output; // Get the output of the position PID
-  //     float ref = hDJI[1].posPID.ref;
-  //      printf("%f,%f,%f\n",err,out,ref); // Print the current angle of motor 4 to USART2
+      // float err = hDJI[3].posPID.cur_error; // Get the current angle of each motor
+      // float out = hDJI[3].speedPID.output; // Get the output of the position PID
+      // float ref = hDJI[3].posPID.ref;
+      //  printf("%f,%f,%f\n",err,out,ref); // Print the current angle of motor 4 to USART2
   //    printf("\n");
   //   printf("%f\n",mi_motor[0].Angle); 
     osDelay(20);

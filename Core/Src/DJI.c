@@ -51,16 +51,16 @@ void DJI_Init(){
 
 	//hDJI.3 = 左右电机
 		hDJI[3].speedPID.KP = 4;
-        hDJI[3].speedPID.KI = 5;
+        hDJI[3].speedPID.KI = 3;
         hDJI[3].speedPID.KD = 0.0001;
 		hDJI[3].speedPID.integralMax = 100000;
         hDJI[3].speedPID.outputMax = 16000;
 
         hDJI[3].posPID.KP = 1.7f;
-        hDJI[3].posPID.KI = 0.6f;
+        hDJI[3].posPID.KI = 1.05f;
         hDJI[3].posPID.KD = 0.00006f;
 		hDJI[3].posPID.integralMax = 100000;
-        hDJI[3].posPID.outputMax = 10000;
+        hDJI[3].posPID.outputMax = 9000;
 
 	//hDJI.4 = 升降电机
 		hDJI[4].speedPID.KP = 5;

@@ -9,6 +9,8 @@
 #include <stdbool.h>
 #define maxspeed        300000
 #define maxAcceleration 70000
+#define maxspeed_2        300000
+#define maxAcceleration_2 146000
 gantrystate mygantry;
 float Wheel_StartPos[5]={0};
 TickType_t WheelCorrect_StartTick;
@@ -23,8 +25,9 @@ void upperservotask(void const *argument)
     osDelay(300);
      WheelCorrect_StartTick = xTaskGetTickCount();
      WheelCorrect_StartTick_2 = xTaskGetTickCount();
-      Wheel_StartPos[1]=hDJI[1].posPID.fdb;
+    Wheel_StartPos[1]=hDJI[1].posPID.fdb;
     Wheel_StartPos[2]=hDJI[2].posPID.fdb;
+    Wheel_StartPos[3]=hDJI[3].posPID.fdb;
     /* Infinite loop */
     for (;;) {
          WheelCorrect_NowTick     = xTaskGetTickCount();
@@ -32,7 +35,7 @@ void upperservotask(void const *argument)
         TickType_t WheelCorrect_ElapsedTick = WheelCorrect_NowTick - WheelCorrect_StartTick;
         TickType_t WheelCorrect_ElapsedTick_2 = WheelCorrect_NowTick_2 - WheelCorrect_StartTick_2;
         float timeSec                       = (WheelCorrect_ElapsedTick / (1000.0)); // 获取当前时间/s
-        float timeSec_2                       = (WheelCorrect_ElapsedTick_2/ (1000.0)); // 获取当前时间/s
+        float timeSec_2                     = (WheelCorrect_ElapsedTick_2/ (1000.0)); // 获取当前时间/s
          VelocityPlanning( Wheel_StartPos[1],
                              maxspeed ,
                              maxAcceleration,
@@ -44,8 +47,8 @@ void upperservotask(void const *argument)
                              - mygantry.gantrypos.y * 8191, timeSec,
                              &hDJI[2].posPID.ref);
         VelocityPlanning( Wheel_StartPos[3],
-                             maxspeed ,
-                             maxAcceleration,
+                             maxspeed_2 ,
+                             maxAcceleration_2,
                              mygantry.gantrypos.x*8191, timeSec_2,
                              &hDJI[3].posPID.ref);   
         // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
