@@ -27,7 +27,7 @@ void DJI_Init(){
 		hDJI[1].speedPID.integralMin = -100000;
 
         hDJI[1].posPID.KP = 3.0f;
-        hDJI[1].posPID.KI = 0.0f;
+        hDJI[1].posPID.KI = 0.0001f;
         hDJI[1].posPID.KD = 0.0f;
         hDJI[1].posPID.outputMax = 50000;
 		hDJI[1].posPID.integralMax = 100000;
@@ -64,14 +64,14 @@ void DJI_Init(){
 
 	//hDJI.4 = 升降电机
 		hDJI[4].speedPID.KP = 5;
-        hDJI[4].speedPID.KI = 4;
+        hDJI[4].speedPID.KI = 4;//4
         hDJI[4].speedPID.KD = 0.00001;
         hDJI[4].speedPID.outputMax = 16000;
 
-        hDJI[4].posPID.KP = 1.7f;
-        hDJI[4].posPID.KI = 1.0f;
+        hDJI[4].posPID.KP = 1.7f;//1.7
+        hDJI[4].posPID.KI = 1.0f;//1
         hDJI[4].posPID.KD = 0.0005f;
-        hDJI[4].posPID.outputMax = 3500;
+        hDJI[4].posPID.outputMax = 3300;
 
 
 	for (int i = 0; i < 8; i++)

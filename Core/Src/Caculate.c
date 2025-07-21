@@ -19,6 +19,15 @@ void positionServo(float ref, DJI_t * motor){
 
 }
 
+void positionServo_2(float ref, DJI_t * motor){
+	
+	motor->posPID.ref = ref*8191;
+	motor->posPID.fdb = motor->AxisData.AxisAngle_inDegree;
+	//IncrPID_Calc(&motor->posPID);
+	PosePID_Calc(&motor->posPID);
+
+
+}
 //速度伺服函数
 void speedServo(float ref, DJI_t * motor){
 	motor->speedPID.ref = ref;

@@ -10,7 +10,7 @@
 #define maxspeed        300000
 #define maxAcceleration 70000
 #define maxspeed_2        300000
-#define maxAcceleration_2 146000
+#define maxAcceleration_2 130000
 gantrystate mygantry;
 float Wheel_StartPos[5]={0};
 TickType_t WheelCorrect_StartTick;
@@ -27,7 +27,7 @@ void upperservotask(void const *argument)
      WheelCorrect_StartTick_2 = xTaskGetTickCount();
     Wheel_StartPos[1]=hDJI[1].posPID.fdb;
     Wheel_StartPos[2]=hDJI[2].posPID.fdb;
-    Wheel_StartPos[3]=hDJI[3].posPID.fdb;
+    Wheel_StartPos[4]=hDJI[4].posPID.fdb;
     /* Infinite loop */
     for (;;) {
          WheelCorrect_NowTick     = xTaskGetTickCount();
@@ -46,20 +46,21 @@ void upperservotask(void const *argument)
                              maxAcceleration,
                              - mygantry.gantrypos.y * 8191, timeSec,
                              &hDJI[2].posPID.ref);
-        VelocityPlanning( Wheel_StartPos[3],
+        VelocityPlanning( Wheel_StartPos[4],
                              maxspeed_2 ,
                              maxAcceleration_2,
-                             mygantry.gantrypos.x*8191, timeSec_2,
-                             &hDJI[3].posPID.ref);   
+                             mygantry.gantrypos.z*8191, timeSec_2,
+                             &hDJI[4].posPID.ref);   
         // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
         // STP_23L_Decode(Rxbuffer_2, &Lidar2);//激光是短轴的
         positionServo(mygantry.gantrypos.x, mygantry.Motor_X);
         positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);//
+        
        positionServo(hDJI[2].posPID.ref/8191.0f, mygantry.Motor_Y2);
         // positionServo_lidar(mygantry.gantrypos.x, mygantry.Motor_X, Lidar1); // x轴长
         // positionServo_lidar(mygantry.gantrypos.y, mygantry.Motor_Y, Lidar2); // y轴宽
 
-        positionServo(mygantry.gantrypos.z, mygantry.Motor_Z);
+        positionServo(hDJI[4].posPID.ref/8191, mygantry.Motor_Z);
         positionServo(mygantry.gantrypos.yaw, mygantry.Motor_yaw);
  
 
