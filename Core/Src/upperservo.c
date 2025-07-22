@@ -20,7 +20,7 @@ TickType_t WheelCorrect_NowTick_2;
 void upperservotask(void const *argument)
 {
     /* USER CODE BEGIN upperservotask */
-    mygantry.gantrypos.x = 0;
+    mygantry.gantrypos.x = 706;//706
     mygantry.gantrypos.y = 0;
     osDelay(300);
      WheelCorrect_StartTick = xTaskGetTickCount();
@@ -53,7 +53,8 @@ void upperservotask(void const *argument)
                              &hDJI[4].posPID.ref);   
         // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
         // STP_23L_Decode(Rxbuffer_2, &Lidar2);//激光是短轴的
-        positionServo(mygantry.gantrypos.x, mygantry.Motor_X);
+        
+		RS485_positionServo(mygantry.gantrypos.x/0.037, mygantry.Motor_X,Encoder_value/0.037);
         positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);//
         
        positionServo(hDJI[2].posPID.ref/8191.0f, mygantry.Motor_Y2);

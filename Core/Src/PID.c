@@ -66,6 +66,31 @@ void PosePID_Calc(PID_t *pid)
 
 }
 
+void RS485_PosePID_Calc(PID_t *pid)
+{
+    pid->cur_error = pid->ref - pid->fdb;
+    pid->integral += pid->cur_error;
+
+    /*防止积分饱和*/
+    if (pid->integral > pid->integralMax)
+        pid->integral = pid->integralMax;
+    if (pid->integral < pid->integralMin)
+        pid->integral = pid->integralMin;
+
+    pid->output = pid->KP * pid->cur_error + pid->KI * pid->integral + pid->KD * (pid->error[1] - pid->error[0]);
+    pid->error[0] = pid->error[1];
+    pid->error[1] = pid->cur_error;
+
+    /*设定输出上限*/
+  
+    if (pid->output > pid->outputMax )
+    pid->output = pid->outputMax;
+    if(pid->output < -pid->outputMax)
+    pid->output = -pid->outputMax;
+    if(pid->cur_error < 90 && pid->cur_error > -90)
+        pid->output = 0; // 防抖处理
+
+}
 /*PD算法*/
 void PD_Calc(PID_t *pid)
 {

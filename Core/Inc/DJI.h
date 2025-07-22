@@ -5,26 +5,25 @@
 #include "PID.h"
 
 #define LAST 0
-#define NOW 1
+#define NOW  1
 
 /*PID.h中有更详细定义*/
-//typedef struct
+// typedef struct
 //{
-//    float KP;        // PID参数P
-//    float KI;        // PID参数I
-//    float KD;        // PID参数D
-//    float fdb;       // PID反馈值
-//    float ref;       // PID目标值
-//    float cur_error; //当前误差
-//    float error[2];  //前两次误差
-//    float output;    //输出值
-//    float outputMax; //最大输出值的绝对值
-//    float outputMin; //最小输出值的绝对值用于防抖
+//     float KP;        // PID参数P
+//     float KI;        // PID参数I
+//     float KD;        // PID参数D
+//     float fdb;       // PID反馈值
+//     float ref;       // PID目标值
+//     float cur_error; //当前误差
+//     float error[2];  //前两次误差
+//     float output;    //输出值
+//     float outputMax; //最大输出值的绝对值
+//     float outputMin; //最小输出值的绝对值用于防抖
 
 //} PID_t;
 
-typedef enum
-{
+typedef enum {
     M3508 = 0,
     M2006
 } DJI_e;
@@ -49,7 +48,7 @@ typedef struct
         float RotorAngle_0_360_OffSet; // 电机机械角度偏移量 单位 度°
         int RotorRound;                // 电机转的圈数
     } Calculate;
-		
+
     struct
     {
         float AxisAngle_inDegree; // 电机轴输出角度 单位 度°
@@ -67,7 +66,7 @@ extern DJI_t hDJI[8];
 
 void CanTransmit_DJI_1234(CAN_HandleTypeDef *hcanx, int16_t cm1_iq, int16_t cm2_iq, int16_t cm3_iq, int16_t cm4_iq);
 void CanTransmit_DJI_5678(CAN_HandleTypeDef *hcanx, int16_t cm5_iq, int16_t cm6_iq, int16_t cm7_iq, int16_t cm8_iq);
-
+HAL_StatusTypeDef CanTransmit_SetBaudRate(CAN_HandleTypeDef *hcanx, uint8_t sensorId, uint8_t baudRate);
 void DJI_Init(void);
 
 HAL_StatusTypeDef DJI_CanMsgDecode(uint32_t Stdid, uint8_t *fdbData);

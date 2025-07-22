@@ -7,7 +7,12 @@ uint8_t CanReceiveData[8];
 CAN_RxHeaderTypeDef rxMsg;//发送接收结构体
 uint8_t rx_data[8];       //接收数据
 uint32_t Motor_Can_ID;    //接收数据电机ID
-
+int32_t Encoder_value      = 0;
+int32_t Encoder_value_last = 0;
+int32_t Encoder_value_diff = 0;
+int64_t Encoder_value_sum  = 0;
+float Encoder_speed        = 0.0;
+int8_t first_flag          = 0;
 HAL_StatusTypeDef CANFilterInit(CAN_HandleTypeDef* hcan){
 	/*新增内容：启用时钟*/
      CAN_FilterTypeDef  sFilterConfig;
@@ -61,6 +66,33 @@ void CanDataDecode(CAN_RxHeaderTypeDef RxHeader){
   /* Can message Decode */
   if( RxHeader.IDE == CAN_ID_STD ){
     DJI_CanMsgDecode(RxHeader.StdId, CanReceiveData);
+    if (RxHeader.StdId == 0x08) {
+        if (RxHeader.DLC == 0x07 && CanReceiveData[2] == 0x01) {
+            // 原有编码器数据处理逻辑
+            Encoder_value = CanReceiveData[3] | (CanReceiveData[4] << 8) |
+                            (CanReceiveData[5] << 16) | (CanReceiveData[6] << 24);
+                        
+              Encoder_value*= 0.037;            
+            Encoder_value_last        = 0;
+            Encoder_value_diff        = (Encoder_value - Encoder_value_last) ;
+            int64_t Encoder_value_sum = 0;
+            Encoder_speed             = Encoder_value_diff / 0.001f;
+            first_flag                = 0;
+
+            if (first_flag != 0) {
+                if (Encoder_value_diff < -12000) {
+                    Encoder_value_sum += Encoder_value_diff + 24576;
+                } else if (Encoder_value_diff > 12000) {
+                    Encoder_value_sum += Encoder_value_diff - 24576;
+                } else {
+                    Encoder_value_sum += Encoder_value_diff;
+                }
+            }
+            Encoder_value_last = Encoder_value;
+            first_flag         = 1;
+        } else {
+        }
+    }
   }
   if( RxHeader.IDE == CAN_ID_EXT ){
     // vesc反馈关掉这里就不会有消息

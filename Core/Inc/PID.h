@@ -22,6 +22,7 @@ typedef struct
 void P_Calc(PID_t *pid);
 void IncrPID_Calc(PID_t *pid);
 void PosePID_Calc(PID_t *pid);
+void RS485_PosePID_Calc(PID_t *pid);
 void PD_Calc(PID_t *pid);
 //void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, volatile float *currentAngle);
 #endif
