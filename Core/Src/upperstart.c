@@ -44,13 +44,13 @@ void StartDefaultTask(void const * argument)
 
 
     //  }
-      float err = hDJI[3].posPID.cur_error; // Get the current angle of each motor
-      float out = hDJI[3].speedPID.output; // Get the output of the position PID
-      float ref = hDJI[3].posPID.ref;
-       printf("%f,%f,%f,%f\n",err,out,ref,(float)Encoder_value); // Print the current angle of motor 4 to USART2
+      // float err = hDJI[3].posPID.cur_error; // Get the current angle of each motor
+      // float out = hDJI[3].speedPID.output; // Get the output of the position PID
+      // float ref = hDJI[3].posPID.ref;
+      // printf("%f,%f,%f,%f\n",err,out,ref,(float)Encoder_value); // Print the current angle of motor 4 to USART2
   //    printf("\n");
-  // printf("%f\n",(float)Encoder_value_diff);
-  //   printf("%f\n",mi_motor[0].Angle); 
+   printf("%f\n",(float)Encoder_value);
+    // printf("%f\n",mi_motor[0].Angle); 
     osDelay(20);
   }
   /* USER CODE END StartDefaultTask */

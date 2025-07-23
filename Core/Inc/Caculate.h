@@ -23,5 +23,5 @@ typedef struct {
 void VelocityPlan_Init(VelocityPlan_T* plan, float StartPosition, float StopPosition, float MaxAccelerate, float MaxVelocity);
 void RS485_positionServo(float ref, DJI_t * motor,float fdb);
 float CalcPos(VelocityPlan_T* plan, float NowTime);
-
+void positionServo_2(float ref, DJI_t * motor,DJI_t * motor_2);
 #endif

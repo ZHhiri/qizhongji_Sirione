@@ -7,10 +7,10 @@
 #include "wtr_can.h"
 #include "math.h"
 #include <stdbool.h>
-#define maxspeed        300000
-#define maxAcceleration 70000
+#define maxspeed        70000//300000
+#define maxAcceleration 40000//70000
 #define maxspeed_2        300000
-#define maxAcceleration_2 130000
+#define maxAcceleration_2 100000//130000
 gantrystate mygantry;
 float Wheel_StartPos[5]={0};
 TickType_t WheelCorrect_StartTick;
@@ -54,10 +54,10 @@ void upperservotask(void const *argument)
         // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
         // STP_23L_Decode(Rxbuffer_2, &Lidar2);//激光是短轴的
         
-		RS485_positionServo(mygantry.gantrypos.x/0.037, mygantry.Motor_X,Encoder_value/0.037);
+		 RS485_positionServo(mygantry.gantrypos.x/0.037, mygantry.Motor_X,Encoder_value/0.037);
         positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);//
-        
-       positionServo(hDJI[2].posPID.ref/8191.0f, mygantry.Motor_Y2);
+       // positionServo_2(hDJI[1].posPID.ref/8191, mygantry.Motor_Y,mygantry.Motor_Y2);
+      positionServo(hDJI[2].posPID.ref/8191.0f, mygantry.Motor_Y2);
         // positionServo_lidar(mygantry.gantrypos.x, mygantry.Motor_X, Lidar1); // x轴长
         // positionServo_lidar(mygantry.gantrypos.y, mygantry.Motor_Y, Lidar2); // y轴宽
 

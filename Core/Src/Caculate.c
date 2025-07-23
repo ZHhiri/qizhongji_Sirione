@@ -33,12 +33,22 @@ void RS485_positionServo(float ref, DJI_t * motor,float fdb){
 	RS485_PosePID_Calc(&motor->speedPID);
 
 }
-void positionServo_2(float ref, DJI_t * motor){
+void positionServo_2(float ref, DJI_t * motor,DJI_t * motor_2){
 	
 	motor->posPID.ref = ref*8191;
 	motor->posPID.fdb = motor->AxisData.AxisAngle_inDegree;
 	//IncrPID_Calc(&motor->posPID);
 	PosePID_Calc(&motor->posPID);
+    motor->speedPID.ref = motor->posPID.output;
+	motor->speedPID.fdb = motor->FdbData.rpm;
+	//IncrPID_Calc(&motor->speedPID);
+	PosePID_Calc(&motor->speedPID);
+    motor_2->speedPID.ref =-motor->posPID.output;
+	motor_2->speedPID.fdb = motor_2->FdbData.rpm;
+	//IncrPID_Calc(&motor->speedPID);
+	PosePID_Calc(&motor->speedPID);
+
+
 
 
 }
