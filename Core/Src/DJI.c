@@ -1,7 +1,7 @@
 /*包含DJI的初始化，DJI的Transmit，DJI的解码算法*/
 
 #include "DJI.h"
-
+#include "Caculate.h"
 DJI_t hDJI[8];
 
 // 使用DJI init前需要指定motorType
@@ -21,7 +21,7 @@ void DJI_Init()
 
     // hDJI.1 = 前后电机；hDJI.2 = 前后电机
     hDJI[1].speedPID.KP          = 15;
-    hDJI[1].speedPID.KI          = 0.0001;
+    hDJI[1].speedPID.KI          = 0.00015;
     hDJI[1].speedPID.KD          = 0.0;
     hDJI[1].speedPID.outputMax   = 16000;
     hDJI[1].speedPID.integralMax = 100000;
@@ -30,13 +30,13 @@ void DJI_Init()
     hDJI[1].posPID.KP          = 3.0f;
     hDJI[1].posPID.KI          = 0.0001f;
     hDJI[1].posPID.KD          = 0.0f;
-    hDJI[1].posPID.outputMax   = 50000;
+    hDJI[1].posPID.outputMax   = 130000;
     hDJI[1].posPID.integralMax = 100000;
     hDJI[1].posPID.integralMin = -100000;
 
     // hDJI.1 = 前后电机；hDJI.2 = 前后电机
     hDJI[2].speedPID.KP          = 15;
-    hDJI[2].speedPID.KI          = 0.0001;
+    hDJI[2].speedPID.KI          = 0.00015;
     hDJI[2].speedPID.KD          = 0.0;
     hDJI[2].speedPID.outputMax   = 16000;
     hDJI[2].speedPID.integralMax = 100000;
@@ -45,7 +45,7 @@ void DJI_Init()
     hDJI[2].posPID.KP          = 3.0f;
     hDJI[2].posPID.KI          = 0.0001f;
     hDJI[2].posPID.KD          = 0.0f;
-    hDJI[2].posPID.outputMax   = 50000;
+    hDJI[2].posPID.outputMax   = 120500;//140000
     hDJI[2].posPID.integralMax = 100000;
     hDJI[2].posPID.integralMin = -100000;
 
@@ -60,7 +60,7 @@ void DJI_Init()
     hDJI[3].posPID.KI          =1.0f;
     hDJI[3].posPID.KD          = 0.00006f;
     hDJI[3].posPID.integralMax = 100000;
-    hDJI[3].posPID.outputMax   = 5000;
+    hDJI[3].posPID.outputMax   = 5300;
 
     // hDJI.4 = 升降电机
     hDJI[4].speedPID.KP        = 5;
@@ -71,12 +71,17 @@ void DJI_Init()
     hDJI[4].posPID.KP        = 1.7f; // 1.7
     hDJI[4].posPID.KI        = 1.2f; // 1
     hDJI[4].posPID.KD        = 0.0005f;
-    hDJI[4].posPID.outputMax = 3000;
+    hDJI[4].posPID.outputMax = 3300;
 
+    laxian_pid.KP        = 0.5f;//2.4/4.3
+    laxian_pid.KI        = 0.4f;
+    laxian_pid.KD        = 0.01f;
+    laxian_pid.outputMax = 500;
+    laxian_pid.integralMax = 200;//500
     for (int i = 0; i < 8; i++) {
         /*        hDJI[i].speedPID.KP = 12;
                 hDJI[i].speedPID.KI = 0.2;
-                hDJI[i].speedPID.KD = 5;
+                hDJI[i].speedPID.KD = 5;l
                 hDJI[i].speedPID.outputMax = 8000;
 
                 hDJI[i].posPID.KP = 80.0f;

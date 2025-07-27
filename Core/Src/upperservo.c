@@ -7,8 +7,8 @@
 #include "wtr_can.h"
 #include "math.h"
 #include <stdbool.h>
-#define maxspeed        70000//300000
-#define maxAcceleration 40000//70000
+#define maxspeed        100000//300000200000
+#define maxAcceleration 45000//7000050000
 #define maxspeed_2        300000
 #define maxAcceleration_2 100000//130000
 gantrystate mygantry;
@@ -54,13 +54,9 @@ void upperservotask(void const *argument)
         // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
         // STP_23L_Decode(Rxbuffer_2, &Lidar2);//激光是短轴的
         
-		 RS485_positionServo(mygantry.gantrypos.x/0.037, mygantry.Motor_X,Encoder_value/0.037);
-        positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);//
-       // positionServo_2(hDJI[1].posPID.ref/8191, mygantry.Motor_Y,mygantry.Motor_Y2);
-      positionServo(hDJI[2].posPID.ref/8191.0f, mygantry.Motor_Y2);
-        // positionServo_lidar(mygantry.gantrypos.x, mygantry.Motor_X, Lidar1); // x轴长
-        // positionServo_lidar(mygantry.gantrypos.y, mygantry.Motor_Y, Lidar2); // y轴宽
-
+		RS485_positionServo(mygantry.gantrypos.x/0.037, mygantry.Motor_X,Encoder_value/0.037);
+        positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);
+        positionServo(hDJI[2].posPID.ref/8191.0f, mygantry.Motor_Y2);
         positionServo(hDJI[4].posPID.ref/8191, mygantry.Motor_Z);
         positionServo(mygantry.gantrypos.yaw, mygantry.Motor_yaw);
  

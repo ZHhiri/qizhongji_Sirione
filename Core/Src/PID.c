@@ -61,7 +61,7 @@ void PosePID_Calc(PID_t *pid)
     pid->output = pid->outputMax;
     if(pid->output < -pid->outputMax)
     pid->output = -pid->outputMax;
-    if(pid->cur_error < 70 && pid->cur_error > -70)
+    if(pid->cur_error < 1 && pid->cur_error > -1)
         pid->output = 0; // 防抖处理
 
 }

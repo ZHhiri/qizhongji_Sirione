@@ -16,12 +16,13 @@ typedef struct
 {
     DJI_t *Motor_X;
     DJI_t *Motor_Y;
-     DJI_t *Motor_Y2;
+    DJI_t *Motor_Y2;
     DJI_t *Motor_Z;
     DJI_t *Motor_yaw;
     gantryposition gantrypos;
 }gantrystate;
 
+extern  uint16_t runflag;
 extern float Wheel_StartPos[5];
 extern gantrystate mygantry; 
 extern TickType_t WheelCorrect_NowTick ;

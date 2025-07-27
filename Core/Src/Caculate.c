@@ -3,8 +3,10 @@
 #include "Caculate.h"
 #include "math.h"
 #include "PID.h"
-
+#include "param.h"
 //位置伺服函数
+PID_t laxian_pid;
+float target_y = 0.0f;
 void positionServo(float ref, DJI_t * motor){
 	
 	motor->posPID.ref = ref*8191;
@@ -19,6 +21,40 @@ void positionServo(float ref, DJI_t * motor){
 
 }
 
+void y_calibration(float laxian_ref,DJI_t * motor_1,DJI_t * motor_2,float laxian_fdb,float number)
+{
+    uint16_t flag = 1;
+    target_y=mygantry.gantrypos.y;
+    float diff = fabs(motor_1->posPID.ref - motor_1->posPID.fdb);
+    if(fabs(laxian_ref - laxian_fdb) > 7 ) 
+    {
+        if(flag == 1)
+        {   laxian_pid.ref=laxian_ref;
+            laxian_pid.fdb=laxian_fdb;
+            PosePID_Calc(&laxian_pid);
+               WheelCorrect_StartTick = WheelCorrect_NowTick;
+                    Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
+                    Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
+           mygantry.gantrypos.y = mygantry.gantrypos.y - laxian_pid.output/(3.14159*85);
+           
+            flag = 0;
+        }
+        if(diff < 90)
+        {
+            flag = 1;
+        }
+    }
+    else
+    {   
+       laxian_pid.integral=0;
+        // hDJI[1].posPID.integral=0;
+        // hDJI[2].posPID.integral=0;
+       hDJI[1].posPID.fdb=hDJI[1].posPID.ref=target_y;
+       hDJI[2].posPID.fdb=hDJI[2].posPID.ref=target_y;
+        runflag = number;
+        //在这个加一个，修正电机编码器现在位置，即修正后的位置仍设置为之前电机编码器的目标位置，这样就可以使向前打滑后不会使得电机编码器的位置离现在的目标位置差很多，导致会直接撞上去
+    }
+}
 
 void RS485_positionServo(float ref, DJI_t * motor,float fdb){
 	
@@ -33,6 +69,7 @@ void RS485_positionServo(float ref, DJI_t * motor,float fdb){
 	RS485_PosePID_Calc(&motor->speedPID);
 
 }
+
 void positionServo_2(float ref, DJI_t * motor,DJI_t * motor_2){
 	
 	motor->posPID.ref = ref*8191;
@@ -47,11 +84,8 @@ void positionServo_2(float ref, DJI_t * motor,DJI_t * motor_2){
 	motor_2->speedPID.fdb = motor_2->FdbData.rpm;
 	//IncrPID_Calc(&motor->speedPID);
 	PosePID_Calc(&motor->speedPID);
-
-
-
-
 }
+
 //速度伺服函数
 void speedServo(float ref, DJI_t * motor){
 	motor->speedPID.ref = ref;

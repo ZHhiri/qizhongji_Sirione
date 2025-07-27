@@ -19,9 +19,11 @@ typedef struct {
     char direction;        // 运动方向：1-正向，-1-反向
     float CurrPosition;    // 当前位置
 } VelocityPlan_T;
-
+extern PID_t laxian_pid;
+extern float target_y ;
 void VelocityPlan_Init(VelocityPlan_T* plan, float StartPosition, float StopPosition, float MaxAccelerate, float MaxVelocity);
 void RS485_positionServo(float ref, DJI_t * motor,float fdb);
 float CalcPos(VelocityPlan_T* plan, float NowTime);
 void positionServo_2(float ref, DJI_t * motor,DJI_t * motor_2);
+void y_calibration(float laxian_ref,DJI_t * motor_1,DJI_t * motor_2,float laxian_fdb,float number);
 #endif
