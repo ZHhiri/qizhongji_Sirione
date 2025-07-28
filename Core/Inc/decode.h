@@ -22,5 +22,5 @@ typedef struct{
 } LidarPointTypedef;                //获取的测量数据结构体
 
 void STP_23L_Decode(uint8_t *buffer, LidarPointTypedef *lidardata);
-
+uint16_t marrying(uint16_t *box, uint16_t *stack,char *num);
 #endif // !__

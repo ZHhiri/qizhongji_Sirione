@@ -35,6 +35,7 @@
 #include "PID.h"
 #include "retarget.h"
 #include "Servo.h"
+#include "param.h"
 
 /* USER CODE END Includes */
 
@@ -62,6 +63,7 @@ extern uint8_t Rxbuffer_3[195];
 extern LidarPointTypedef Lidar1;
 extern uint16_t UartFlag[6];
 extern uint8_t usart3_rx[1];
+  uint16_t trustFlag = 0;
 int distance = 0; //用以串口重定向传输数据的变量
 
 /* USER CODE END PV */
@@ -114,10 +116,23 @@ int main(void)
   MX_CAN2_Init();
   /* USER CODE BEGIN 2 */
 
+
+  //HAL_UART_Receive_IT(&huart3,(uint8_t*)rxbuffer,1);
+
+  // while(trustFlag < 3)
+  // {
+  //   trustFlag += marrying(box, stack, num);
+  // }
+  // if(trustFlag >= 3)
+  // {
+  //   HAL_UART_Transmit(&huart2, (uint8_t*)"Trust established!\r\n", 20, 100);
+  //   MX_FREERTOS_Init();
+  // }
+MX_FREERTOS_Init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
+  //MX_FREERTOS_Init();
 
   /* Start scheduler */
   osKernelStart();

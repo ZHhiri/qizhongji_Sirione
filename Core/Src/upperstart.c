@@ -7,6 +7,7 @@
 #include "tim.h"
 #include "mi_motor.h"
 #include "wtr_can.h"
+
 void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
@@ -17,8 +18,9 @@ void StartDefaultTask(void const * argument)
   osDelay(30);
   init_cybergear(&mi_motor[0], 0x7F, Motion_mode);
   set_zeropos_cybergear(&mi_motor[0]);
+  Set_Motor_Parameter(&mi_motor[0],0x2013,0.05,'f');
   osDelay(30);
-  HAL_UART_Receive_IT(&huart3, usart3_rx, 1);
+  HAL_UART_Receive_IT(&huart3,(uint8_t*)rxbuffer,1);
   HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
   osDelay(30);
@@ -52,7 +54,7 @@ void StartDefaultTask(void const * argument)
       // printf("%f,%f,%f,%f,%f,%f\n",err,out,ref/8191,(float)Encoder_value_y,(float)Encoder_value,laxian_pid.output);
   // //    printf("\n");
    //printf("%f\n",(float)Encoder_value);
-    // printf("%f\n",mi_motor[0].Angle); 
+    printf("%f,%f\n",mi_motor[0].Angle,miPIDController.output); 
     osDelay(20);
   }
   /* USER CODE END StartDefaultTask */

@@ -10,7 +10,8 @@
 #include "wtr_can.h"
 uint16_t stateflag = 0;
 uint16_t runflag   = 100;
-int16_t xinagzi[6] = {1, 3, 6, 5, 2, 4};
+
+int16_t xinagzi[6] = {2, 1, 4, 3, 5, 6};
 int16_t zhiduo[6]  = {1, 3, 4, 0, 5, 2};
 int16_t mapping[6] = {0};
 
@@ -28,31 +29,31 @@ float z2_place;
 float y_stack_laxian;
 float y_stack_2_laxian;
 
-float x_box_1   = 193;//-8.4
-float x_box_2   =706;// 0 
-float x_box_3   = 1204;//8.0
-float x_stack_1 =264.92; //-7.7
-float x_stack_6 = 1117.93;//8.0
-float x_stack_2 = 30.933;//-11.7
-float x_stack_3 = 461.976;//-4.3
-float x_stack_4 = 917.82;//3.57
-float x_stack_5 =1371.66 ;//10.8
+float x_box_1   = 162.2;//-8.4
+float x_box_2   =681.16;// 0 
+float x_box_3   = 1176.19;//8.0
+float x_stack_1 =276.24; //-7.7
+float x_stack_6 = 1109.07;//8.0
+float x_stack_2 = 33.933;//-11.7
+float x_stack_3 = 452.076;//-4.3
+float x_stack_4 = 928.82;//3.57
+float x_stack_5 =1375.324 ;//10.8
 
-float y_box        = -8.135-0.25; //-9.00000000005
-float y_box_2        = -8.135-0.25+0.4; //-9.00000000005
-float y_box_3        = -8.135-0.25+0.8; //-9.00000000005
+float y_box        = -8.535-0.25; //-9.00000000005
+float y_box_2        = -8.535-0.25; //-9.00000000005
+float y_box_3        = -8.535-0.25; //-9.00000000005
 float y_stack_16   = 1.864;
 float y_stack_2345 = 2.4315 ;
 
 
-float y_box_laxian        = 2848.69;
+float y_box_laxian        = 2823.69;
 //float y_stack_2345_laxian = 0;
-float y_stack_16_laxian   = 302.44;
-float y_stack_6_laxian   = 281.84;
-float y_stack2_laxian = 132.88;
-float y_stack_3_laxian = 125.83;
-float y_stack_4_laxian = 104.22;
-float y_stack_5_laxian = 113.87;
+float y_stack_16_laxian   = 278.27;
+float y_stack_6_laxian   = 270.74;
+float y_stack2_laxian = 128.18;
+float y_stack_3_laxian = 130.83;
+float y_stack_4_laxian = 120.42;
+float y_stack_5_laxian = 112.073;
 float y_stay  = -7 / 1.03+0.5;
 float y_stay_laxian=2433.34;
 float y_stack_laxian;
@@ -66,7 +67,7 @@ float z_low_crawl  = -0.068;
 float z_stack      = -2 + 0.3;
 float z_stack_2    = -3.4 + 0.3; // 细调
 float z_place_2    = -2.0 + 0.3; // 细调
-float z_place      = -0.7 + 0.230;
+float z_place      = -0.85 ;
 
 float x_start = 0;
 float y_start = 0;
@@ -1966,27 +1967,34 @@ void uppergoingtask(void const *argument)
     set_zeropos_cybergear(&mi_motor[0]);
     generate_mapping_array(xinagzi, zhiduo, mapping);
     osDelay(500);
-             
+     __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1100); // Open
+     __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 1100); // Open
     // for ( ; ; )
     // {
+    //                 __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 800); // Close
+    // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 800); // Close
     //      if (yaw_flag == 0) {
-    //                     motor_controlmode(&mi_motor[0], 0, yaw_now, 0, 3, 2);
+    //                     motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 3, 2);
     //                     osDelay(1);
                     
-    //                 if (fabs(mi_motor[0].Angle - yaw_now) < 0.001) {
+    //                 if (fabs(mi_motor[0].Angle - yaw_180) < 0.001) {
     //                     yaw_flag = 1;
     //                     osDelay(1);
     //                 }
-    //                     motor_controlmode(&mi_motor[0], 0, yaw_now, 0, 16, 10);
+    //                     motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 6, 2.5);
     //                     osDelay(1);
     //                 }
-        
+    //                 osDelay(1000);
+    //     return_to_poweron_position(&mi_motor[0]);
     //             }
-    // for (; ;)
-    // {
+//     for (; ;)
+//     {
+
+// //
+        
          
-    //     /* code */
-    // }
+//         /* code */
+//     }
     
     
     // WheelCorrect_StartTick = WheelCorrect_NowTick;
@@ -2003,6 +2011,25 @@ void uppergoingtask(void const *argument)
     //     }
     //     osDelay(10);
     // }
+
+    //270：12，5
+    //180：12, 5
+    //90：12，4.5
+
+
+    // for ( ; ; )
+    // {
+    //      if (yaw_flag == 0) {
+    //                     motor_controlmode(&mi_motor[0], 0, yaw_270, 0, 12, 5);
+    //                     osDelay(1);
+                    
+    //                 if (fabs(mi_motor[0].Angle - yaw_270) < 0.001) {
+    //                     yaw_flag = 1;
+    //                     osDelay(1);
+    //                 }
+    //             }
+    //  }
+    
 
     WheelCorrect_StartTick_2 = WheelCorrect_NowTick_2;
     Wheel_StartPos[4]        = hDJI[4].posPID.fdb;
@@ -2075,19 +2102,21 @@ void uppergoingtask(void const *argument)
                     WheelCorrect_StartTick = WheelCorrect_NowTick;
                     Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
                     Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
+                     hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
                     if (group==0)
                     {
-                        mygantry.gantrypos.y = y_box;
+                        target_y=mygantry.gantrypos.y = y_box;
                         /* code */
                     }
                     else if (group==1)
                     {
-                        mygantry.gantrypos.y = y_box_2;
+                        target_y=mygantry.gantrypos.y = y_box_2;
                         /* code */
                     }
                     else if (group==2)
                     {
-                        mygantry.gantrypos.y = y_box_3;
+                        target_y=mygantry.gantrypos.y = y_box_3;
                         /* code */
                     }
                    
@@ -2103,7 +2132,7 @@ void uppergoingtask(void const *argument)
                     mygantry.gantrypos.z = z_low_chushi;
                     float diff_z         = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
                     float diff_y         = fabs(mygantry.gantrypos.y * 8191 - hDJI[1].AxisData.AxisAngle_inDegree);
-                    if (diff_z < 700 && diff_y <500) {
+                    if (diff_z < 700 && diff_y <120) {
                          y_calibration(y_box_laxian,mygantry.Motor_Y,mygantry.Motor_Y2,Encoder_value_y,3);
                         
                         //runflag = 3;
@@ -2145,7 +2174,9 @@ void uppergoingtask(void const *argument)
                         WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
                         Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
-                        mygantry.gantrypos.y = y_stay;
+                          hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
+                        target_y=mygantry.gantrypos.y = y_stay;
                     }
                 }
 
@@ -2175,29 +2206,31 @@ void uppergoingtask(void const *argument)
                         yaw_flag = 1;
                         osDelay(1);
                     }
-                        motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 12, 6);
+                        //motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 8, 3);
                         osDelay(1);
                     }
-
+                    osDelay(400);
                     float diff_z = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
                     if (diff_z < 550) {
                         runflag                = 8;
                         WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
                         Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
+                          hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
                            if (group==0)
                     {
-                        mygantry.gantrypos.y = y_box;
+                        target_y=mygantry.gantrypos.y = y_box;
                         /* code */
                     }
                     else if (group==1)
                     {
-                        mygantry.gantrypos.y = y_box_2;
+                        target_y=mygantry.gantrypos.y = y_box_2;
                         /* code */
                     }
                     else if (group==2)
                     {
-                        mygantry.gantrypos.y = y_box_3;
+                        target_y=mygantry.gantrypos.y = y_box_3;
                         /* code */
                     }
                     }
@@ -2211,7 +2244,7 @@ void uppergoingtask(void const *argument)
                     float diff_y         = fabs(mygantry.gantrypos.y * 8191 - hDJI[1].AxisData.AxisAngle_inDegree);
                     float diff_x = fabs(mygantry.gantrypos.x/0.037 -Encoder_value/0.037);
 
-                    if (diff_x < 90 && diff_y < 500) {
+                    if (diff_x < 90 && diff_y < 90) {
                          y_calibration(y_box_laxian,mygantry.Motor_Y,mygantry.Motor_Y2,Encoder_value_y,9);
                         //runflag = 9;
                          WheelCorrect_StartTick_2 = WheelCorrect_NowTick_2;
@@ -2253,7 +2286,9 @@ void uppergoingtask(void const *argument)
                         Wheel_StartPos[2]        = hDJI[2].posPID.fdb;
                         WheelCorrect_StartTick_2 = WheelCorrect_NowTick_2;
                         Wheel_StartPos[4]        = hDJI[4].posPID.fdb;
-                        mygantry.gantrypos.y = y_stack;//
+                          hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
+                        target_y=mygantry.gantrypos.y = y_stack;//
                         mygantry.gantrypos.z = z_high;
                          
                     }
@@ -2273,7 +2308,7 @@ void uppergoingtask(void const *argument)
                         yaw_flag = 1;
                         osDelay(1);
                     }
-                        motor_controlmode(&mi_motor[0], 0, yaw_rotate, 0, 16, 10);
+                       // motor_controlmode(&mi_motor[0], 0, yaw_rotate, 0, 7, 3);
                         osDelay(1);
                     }
 
@@ -2283,7 +2318,7 @@ void uppergoingtask(void const *argument)
                     float diff_x = fabs(mygantry.gantrypos.x/0.037 -Encoder_value/0.037);
                     float diff_z = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
                     // float diff_yaw = fabs(mygantry.gantrypos.yaw * 8191 - hDJI[0].AxisData.AxisAngle_inDegree);
-                    if (diff_x < 90 && diff_y < 500 && diff_z < 600) {
+                    if (diff_x < 90 && diff_y < 90 && diff_z < 600) {
                         y_calibration(y_stack_laxian,mygantry.Motor_Y,mygantry.Motor_Y2,Encoder_value_y,14);
                         //runflag                  = 14;      
                         WheelCorrect_StartTick   = WheelCorrect_NowTick;
@@ -2331,19 +2366,24 @@ void uppergoingtask(void const *argument)
                     //     osDelay(1);
                     // }
                         runflag                  = 15;
-                        WheelCorrect_StartTick   = WheelCorrect_NowTick;
-                        Wheel_StartPos[1]        = hDJI[1].posPID.fdb;
-                        Wheel_StartPos[2]        = hDJI[2].posPID.fdb;
                         WheelCorrect_StartTick_2 = WheelCorrect_NowTick_2;
                         Wheel_StartPos[4]        = hDJI[4].posPID.fdb;
                         mygantry.gantrypos.z = z_high;
-                        mygantry.gantrypos.y = 0.0;
+                        osDelay(500);
+                        WheelCorrect_StartTick   = WheelCorrect_NowTick;
+                        Wheel_StartPos[1]        = hDJI[1].posPID.fdb;
+                        Wheel_StartPos[2]        = hDJI[2].posPID.fdb;
+                        
+                        hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                        hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
+                        
+                        target_y=mygantry.gantrypos.y = 0.0;
                         //mygantry.gantrypos.z = z_high;
                     }
-                    osDelay(400);
-                    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 800);
-                    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 800);
-                    osDelay(400);
+                    // osDelay(400);
+                    // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 800);
+                    // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 800);
+                    // osDelay(400);
                 }
 
                 if (runflag == 15) {
@@ -2370,14 +2410,16 @@ void uppergoingtask(void const *argument)
                         yaw_flag = 1;
                         osDelay(1);
                     }
-                        motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 12, 6);
+                        //motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 7, 3);
                         osDelay(1);
                     }
                         runflag                = 16;
                         WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
                         Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
-                        mygantry.gantrypos.y = y2_stack+0.1*group;//-0.2*group
+                          hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
+                        target_y=mygantry.gantrypos.y = y2_stack+0.1*group;//-0.2*group
                     }
                 }
 
@@ -2389,7 +2431,7 @@ void uppergoingtask(void const *argument)
                     float diff_x = fabs(mygantry.gantrypos.x/0.037 -Encoder_value/0.037);
                     float diff_y         = fabs(mygantry.gantrypos.y * 8191 - hDJI[1].AxisData.AxisAngle_inDegree);
 
-                    if (diff_x < 90 && diff_y < 500) {
+                    if (diff_x < 90 && diff_y < 90) {
                          y_calibration(y_stack_2_laxian,mygantry.Motor_Y,mygantry.Motor_Y2,Encoder_value_y,17);
                         //runflag                  = 17;
                         WheelCorrect_StartTick_2 = WheelCorrect_NowTick_2;
@@ -2411,14 +2453,17 @@ void uppergoingtask(void const *argument)
                         } else {
                             __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 1100); // Open
                         }
-                        osDelay(1200);
+                        osDelay(800);
                         WheelCorrect_StartTick_2 = WheelCorrect_NowTick_2;
                         Wheel_StartPos[4]        = hDJI[4].posPID.fdb;
                         mygantry.gantrypos.z = z_highest;
+                        osDelay(500);
                          WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
                         Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
-                        mygantry.gantrypos.y = 0.0;
+                          hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
+                        target_y=mygantry.gantrypos.y = 0.0;
                     }
                 }
 
@@ -2442,12 +2487,14 @@ void uppergoingtask(void const *argument)
                         Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
                     }
                 }
-
+                  hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
                 if (group == 3) {
-                    mygantry.gantrypos.y = y_box;
+                    target_y=mygantry.gantrypos.y = y_box;
                     // mygantry.gantrypos.x = x_box_1;
                     mygantry.gantrypos.x = x_box_2;
                     /* code */
+                    osDelay(500);
                     if (yaw_flag == 0) {
                         motor_controlmode(&mi_motor[0], 0, yaw_90, 0, 3, 2);
                         osDelay(1);

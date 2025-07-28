@@ -1,0 +1,2 @@
+//SET_COMPARE(&htim3, TIM_CHANNEL_1, 1100); // Open
+    //  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 1100); // Open

@@ -19,10 +19,19 @@ typedef struct
     float outputMax; // 最大输出值的绝对值
     float outputMin; // 最小输出值的绝对值用于防抖
 }PID_t;
+typedef struct{
+    float kp, ki, kd;       // PID 参数
+    float integral;          // 积分累积值
+    float prev_error;        // 上次误差（用于微分）
+    float max_integral;      // 积分限幅（防饱和）
+    float output;       // 上次输出（用于防抖）
+}PIDController;
 void P_Calc(PID_t *pid);
 void IncrPID_Calc(PID_t *pid);
 void PosePID_Calc(PID_t *pid);
 void RS485_PosePID_Calc(PID_t *pid);
 void PD_Calc(PID_t *pid);
+float mi_pid_compute(PIDController* pid, float error, float dt);
+void position_control_with_pid( float target_pos);
 //void VelocityPlanning(float initialAngle, float maxAngularVelocity, float AngularAcceleration, float targetAngle, float currentTime, volatile float *currentAngle);
 #endif

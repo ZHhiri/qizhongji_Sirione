@@ -85,7 +85,7 @@ static int float_to_uint(float x, float x_min, float x_max, int bits)
   * @param[in]      Value_type:写入参数数据类型
   * @retval         none
   */
-static void Set_Motor_Parameter(MI_Motor *Motor,uint16_t Index,float Value,char Value_type){
+ void Set_Motor_Parameter(MI_Motor *Motor,uint16_t Index,float Value,char Value_type){
 	uint8_t tx_data[8];
 	txMsg.ExtId = Communication_Type_SetSingleParameter<<24|Master_CAN_ID<<8|Motor->CAN_ID;
 	tx_data[0]=Index;

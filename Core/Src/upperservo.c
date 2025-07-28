@@ -7,8 +7,8 @@
 #include "wtr_can.h"
 #include "math.h"
 #include <stdbool.h>
-#define maxspeed        100000//300000200000
-#define maxAcceleration 45000//7000050000
+#define maxspeed        200000//300000200000
+#define maxAcceleration 50000//7000050000
 #define maxspeed_2        300000
 #define maxAcceleration_2 100000//130000
 gantrystate mygantry;
@@ -21,7 +21,7 @@ void upperservotask(void const *argument)
 {
     /* USER CODE BEGIN upperservotask */
     mygantry.gantrypos.x = 706;//706
-    mygantry.gantrypos.y = 0;
+    mygantry.gantrypos.y = 0;//842.015
     osDelay(300);
      WheelCorrect_StartTick = xTaskGetTickCount();
      WheelCorrect_StartTick_2 = xTaskGetTickCount();
@@ -53,6 +53,7 @@ void upperservotask(void const *argument)
                              &hDJI[4].posPID.ref);   
         // STP_23L_Decode(Rxbuffer_1, &Lidar1);//激光是长轴的a
         // STP_23L_Decode(Rxbuffer_2, &Lidar2);//激光是短轴的
+        // position_control_with_pid(3.14159);
         
 		RS485_positionServo(mygantry.gantrypos.x/0.037, mygantry.Motor_X,Encoder_value/0.037);
         positionServo(hDJI[1].posPID.ref/8191, mygantry.Motor_Y);

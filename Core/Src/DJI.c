@@ -2,8 +2,9 @@
 
 #include "DJI.h"
 #include "Caculate.h"
+#include "PID.h"
 DJI_t hDJI[8];
-
+PIDController miPIDController = {0.6f, 0.6f, 0.013f, 0.0f, 0.0f};
 // 使用DJI init前需要指定motorType
 void DJI_Init()
 {
@@ -73,11 +74,17 @@ void DJI_Init()
     hDJI[4].posPID.KD        = 0.0005f;
     hDJI[4].posPID.outputMax = 3300;
 
-    laxian_pid.KP        = 0.5f;//2.4/4.3
-    laxian_pid.KI        = 0.4f;
-    laxian_pid.KD        = 0.01f;
+    laxian_pid.KP        = 0.6f;//2.4/4.3
+    laxian_pid.KI        = 0.6f;
+    laxian_pid.KD        = 0.013f;
     laxian_pid.outputMax = 500;
-    laxian_pid.integralMax = 200;//500
+    laxian_pid.integralMax = 100;//500
+    laxian_pid.integralMin = -100;
+
+    miPIDController.kp = 0.0f;//0.002
+    miPIDController.ki = 0.0f;//0.0001
+    miPIDController.kd = 0.0f;//0.013
+    miPIDController.integral = 2.0f;
     for (int i = 0; i < 8; i++) {
         /*        hDJI[i].speedPID.KP = 12;
                 hDJI[i].speedPID.KI = 0.2;

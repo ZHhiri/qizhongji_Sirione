@@ -21,7 +21,10 @@ typedef struct
     DJI_t *Motor_yaw;
     gantryposition gantrypos;
 }gantrystate;
-
+extern int16_t xinagzi[6] ;
+extern int16_t zhiduo[6]  ;
+extern uint16_t box[6] ;
+extern uint16_t stack[6] ;
 extern  uint16_t runflag;
 extern float Wheel_StartPos[5];
 extern gantrystate mygantry; 
@@ -30,11 +33,15 @@ extern TickType_t WheelCorrect_StartTick;
 extern  TickType_t WheelCorrect_StartTick_2;
 extern  TickType_t WheelCorrect_NowTick_2;
 //extern uint8_t usart1_rx[1];
-extern uint8_t usart3_rx[1];
+extern uint8_t rxbuffer[1];
+extern uint16_t box[6];
+extern uint16_t stack[6];
+extern char num[14];
+extern uint16_t rxflag ;
 
 //extern uint8_t Rxbuffer_1[195];
 extern uint8_t Rxbuffer_2[195];
-
+extern PIDController miPIDController;
 extern LidarPointTypedef Lidar1;
 extern LidarPointTypedef Lidar2;
 
