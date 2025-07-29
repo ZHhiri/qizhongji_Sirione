@@ -12,6 +12,7 @@ void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
 
+
   /* initialize motors incluing motortypes、xyz of motors、PID of motors*/
   
   gantry_Motor_init(); 

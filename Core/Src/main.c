@@ -117,7 +117,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 
-  //HAL_UART_Receive_IT(&huart3,(uint8_t*)rxbuffer,1);
+  HAL_UART_Receive_IT(&huart3,(uint8_t*)rxbuffer,1);
 
   // while(trustFlag < 3)
   // {

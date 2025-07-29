@@ -11,7 +11,7 @@
 uint16_t stateflag = 0;
 uint16_t runflag   = 100;
 
-int16_t xinagzi[6] = {2, 1, 4, 3, 5, 6};
+int16_t xinagzi[6] = {2, 1, 3, 4, 5, 6};
 int16_t zhiduo[6]  = {1, 3, 4, 0, 5, 2};
 int16_t mapping[6] = {0};
 
@@ -29,12 +29,12 @@ float z2_place;
 float y_stack_laxian;
 float y_stack_2_laxian;
 
-float x_box_1   = 162.2;//-8.4
-float x_box_2   =681.16;// 0 
-float x_box_3   = 1176.19;//8.0
+float x_box_1   =176.86 ;//-8.4,162.2
+float x_box_2   =682.09;// 0 681.16
+float x_box_3   = 1198.72;//8.0 1176.19
 float x_stack_1 =276.24; //-7.7
 float x_stack_6 = 1109.07;//8.0
-float x_stack_2 = 33.933;//-11.7
+float x_stack_2 =30.933 ;//-11.7 33.933
 float x_stack_3 = 452.076;//-4.3
 float x_stack_4 = 928.82;//3.57
 float x_stack_5 =1375.324 ;//10.8
@@ -1974,18 +1974,18 @@ void uppergoingtask(void const *argument)
     //                 __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 800); // Close
     // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 800); // Close
     //      if (yaw_flag == 0) {
-    //                     motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 3, 2);
+    //                     motor_controlmode(&mi_motor[0], 0, yaw_90, 0, 3, 2.2);//1.932.5
     //                     osDelay(1);
                     
     //                 if (fabs(mi_motor[0].Angle - yaw_180) < 0.001) {
     //                     yaw_flag = 1;
     //                     osDelay(1);
     //                 }
-    //                     motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 6, 2.5);
+    //                     //motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 6, 1.9);
     //                     osDelay(1);
     //                 }
     //                 osDelay(1000);
-    //     return_to_poweron_position(&mi_motor[0]);
+    //    // return_to_poweron_position(&mi_motor[0]);
     //             }
 //     for (; ;)
 //     {
@@ -2078,7 +2078,7 @@ void uppergoingtask(void const *argument)
                         yaw_flag = 1;
                         osDelay(1);
                     }
-                        motor_controlmode(&mi_motor[0], 0, yaw_0, 0, 10, 8);
+                        motor_controlmode(&mi_motor[0], 0, yaw_0, 0, 6, 1.9);
                         osDelay(1);
                     }
                     // for (uint16_t i = 0; i < 500; i++) {
@@ -2169,7 +2169,7 @@ void uppergoingtask(void const *argument)
                     
                     //osDelay(30);
                     float diff_z         = fabs(mygantry.gantrypos.z * 8191 - hDJI[4].AxisData.AxisAngle_inDegree);
-                    if (diff_z < 300) {
+                    if (diff_z < 400) {
                         runflag                = 6;
                         WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
@@ -2199,7 +2199,7 @@ void uppergoingtask(void const *argument)
                     
                     osDelay(400);
                          if (yaw_flag == 0) {
-                        motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 3, 2);
+                        motor_controlmode(&mi_motor[0], 0, yaw_180, 0, 3, 1.93);
                         osDelay(1);
                     
                     if (fabs(mi_motor[0].Angle - yaw_180) < 0.001) {
@@ -2300,17 +2300,19 @@ void uppergoingtask(void const *argument)
                     
                    osDelay(300);
                     mygantry.gantrypos.x = x_stack;
-                      if (yaw_flag == 0) {
-                        motor_controlmode(&mi_motor[0], 0, yaw_rotate, 0, 3, 2);
-                        osDelay(1);
-                    
-                    if (fabs(mi_motor[0].Angle - yaw_rotate) < 0.005) {
-                        yaw_flag = 1;
-                        osDelay(1);
+                      if (yaw_rotate==yaw_270||yaw_rotate==yaw_90)
+                        {
+                             if (yaw_flag == 0) {
+                        motor_controlmode(&mi_motor[0], 0, yaw_rotate, 0, 3, 2.2);
+                        osDelay(1); 
+                                        
+                            /* code */
+                        }
                     }
-                       // motor_controlmode(&mi_motor[0], 0, yaw_rotate, 0, 7, 3);
-                        osDelay(1);
-                    }
+                        else if (yaw_rotate==yaw_180)
+                        {
+                            motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 3, 2.5);
+                        }
 
                     // mygantry.gantrypos.yaw = yaw_rotate;
 
@@ -2377,7 +2379,7 @@ void uppergoingtask(void const *argument)
                         hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
                         hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
                         
-                        target_y=mygantry.gantrypos.y = 0.0;
+                        target_y=mygantry.gantrypos.y = 0;
                         //mygantry.gantrypos.z = z_high;
                     }
                     // osDelay(400);
@@ -2402,24 +2404,37 @@ void uppergoingtask(void const *argument)
 
                     // float diff_yaw         = fabs(mygantry.gantrypos.yaw * 8191 - hDJI[0].AxisData.AxisAngle_inDegree);
                     if (diff_z < 550) {
-                              if (yaw_flag == 0) {
-                        motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 3, 2);
-                        osDelay(1);
-                    
-                    if (fabs(mi_motor[0].Angle - yaw2_rotate) < 0.001) {
-                        yaw_flag = 1;
-                        osDelay(1);
+                        if (yaw2_rotate==yaw_270||yaw2_rotate==yaw_90)
+                        {
+                             if (yaw_flag == 0) {
+                        motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 3, 1.8);
+                        osDelay(1); 
+                                        
+                            /* code */
+                        }
                     }
-                        //motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 7, 3);
-                        osDelay(1);
+                        else if (yaw2_rotate==yaw_180)
+                        {
+                            motor_controlmode(&mi_motor[0], 0, yaw2_rotate, 0, 3, 1.93);
+                        }
+                        
+                             
+                    if ((mapping[idx1] == 0&&mapping[idx2] == 2)|| (mapping[idx1] == 2 && mapping[idx2] == 0)||(mapping[idx1] == 5 && mapping[idx2] == 0)||(mapping[idx1] == 0 && mapping[idx2] == 5)) 
+                    {
+                        osDelay(1000);
+                    } 
+                    else if(((mapping[idx1] == 0 && mapping[idx2] == 1))||(mapping[idx1] == 1 && mapping[idx2] == 0)||(mapping[idx1] == 6 && mapping[idx2] == 0)||(mapping[idx1] == 0 && mapping[idx2] == 6))
+                    {
+                        osDelay(400);
                     }
+                        osDelay(200);
                         runflag                = 16;
                         WheelCorrect_StartTick = WheelCorrect_NowTick;
                         Wheel_StartPos[1]      = hDJI[1].posPID.fdb;
                         Wheel_StartPos[2]      = hDJI[2].posPID.fdb;
-                          hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
-                    hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
-                        target_y=mygantry.gantrypos.y = y2_stack+0.1*group;//-0.2*group
+                        hDJI[1].posPID.fdb=hDJI[1].posPID.ref=(laxian_pid.fdb-842.015)/3.1415926/85;
+                        hDJI[2].posPID.fdb=hDJI[2].posPID.ref=-(laxian_pid.fdb-842.015)/3.1415926/85;
+                        target_y=mygantry.gantrypos.y = y2_stack;//-0.2*group
                     }
                 }
 

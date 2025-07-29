@@ -46,7 +46,7 @@ void DJI_Init()
     hDJI[2].posPID.KP          = 3.0f;
     hDJI[2].posPID.KI          = 0.0001f;
     hDJI[2].posPID.KD          = 0.0f;
-    hDJI[2].posPID.outputMax   = 120500;//140000
+    hDJI[2].posPID.outputMax   = 130000;//140000
     hDJI[2].posPID.integralMax = 100000;
     hDJI[2].posPID.integralMin = -100000;
 
@@ -72,7 +72,7 @@ void DJI_Init()
     hDJI[4].posPID.KP        = 1.7f; // 1.7
     hDJI[4].posPID.KI        = 1.2f; // 1
     hDJI[4].posPID.KD        = 0.0005f;
-    hDJI[4].posPID.outputMax = 3300;
+    hDJI[4].posPID.outputMax = 4600;
 
     laxian_pid.KP        = 0.6f;//2.4/4.3
     laxian_pid.KI        = 0.6f;
