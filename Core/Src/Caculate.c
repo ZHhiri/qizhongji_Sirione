@@ -22,6 +22,7 @@ void positionServo(float ref, DJI_t * motor){
 
 }
 
+//位置修正函数 即利用拉线编码器的读值修正位置
 void y_calibration(float laxian_ref,DJI_t * motor_1,DJI_t * motor_2,float laxian_fdb,float number)
 {
     uint16_t flag = 1;
@@ -50,13 +51,11 @@ void y_calibration(float laxian_ref,DJI_t * motor_1,DJI_t * motor_2,float laxian
        laxian_pid.integral=0;
         // hDJI[1].posPID.integral=0;
         // hDJI[2].posPID.integral=0;
-       
         runflag = number;
-        //在这个加一个，修正电机编码器现在位置，即修正后的位置仍设置为之前电机编码器的目标位置，这样就可以使向前打滑后不会使得电机编码器的位置离现在的目标位置差很多，导致会直接撞上去
     }
 }
 
-void RS485_positionServo(float ref, DJI_t * motor,float fdb){
+void x_positionServo(float ref, DJI_t * motor,float fdb){
 	
 	motor->posPID.ref = ref;
 	motor->posPID.fdb = fdb;
@@ -67,7 +66,6 @@ void RS485_positionServo(float ref, DJI_t * motor,float fdb){
 	motor->speedPID.fdb = motor->FdbData.rpm;
 	//IncrPID_Calc(&motor->speedPID);
 	RS485_PosePID_Calc(&motor->speedPID);
-
 }
 
 void positionServo_2(float ref, DJI_t * motor,DJI_t * motor_2){
@@ -206,28 +204,3 @@ float CalcPos(VelocityPlan_T* plan, float NowTime) {
     }
     return plan->CurrPosition;
 }
-/*下述内容在PID.o中重复 于是不再重复定义*/
-////增量式PID算法
-//void PID_Calc(PID_t *pid){
-//	pid->cur_error = pid->ref - pid->fdb;
-//	pid->output += pid->KP * (pid->cur_error - pid->error[1]) + pid->KI * pid->cur_error + pid->KD * (pid->cur_error - 2 * pid->error[1] + pid->error[0]);
-//	pid->error[0] = pid->error[1];
-//	pid->error[1] = pid->ref - pid->fdb;
-//	/*设定输出上限*/
-//	if(pid->output > pid->outputMax) pid->output = pid->outputMax;
-//	if(pid->output < -pid->outputMax) pid->output = -pid->outputMax;
-
-//}
-
-////比例算法
-//void P_Calc(PID_t *pid){
-//	pid->cur_error = pid->ref - pid->fdb;
-//	pid->output = pid->KP * pid->cur_error;
-//	/*设定输出上限*/
-//	if(pid->output > pid->outputMax) pid->output = pid->outputMax;
-//	if(pid->output < -pid->outputMax) pid->output = -pid->outputMax;
-//	
-//	if(fabs(pid->output)<pid->outputMin)
-//		pid->output=0;
-
-//}

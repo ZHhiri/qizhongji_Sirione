@@ -9,16 +9,16 @@ PIDController miPIDController = {0.6f, 0.6f, 0.013f, 0.0f, 0.0f};
 void DJI_Init()
 {
 
-    // hDJI.0 = 云台电机
-    hDJI[0].speedPID.KP        = 0.3;
-    hDJI[0].speedPID.KI        = 0.000025;
-    hDJI[0].speedPID.KD        = 0.001;
-    hDJI[0].speedPID.outputMax = 1200;
+    // // hDJI.0 = 云台电机
+    // hDJI[0].speedPID.KP        = 0.3;
+    // hDJI[0].speedPID.KI        = 0.000025;
+    // hDJI[0].speedPID.KD        = 0.001;
+    // hDJI[0].speedPID.outputMax = 1200;
 
-    hDJI[0].posPID.KP        = 0.3f;
-    hDJI[0].posPID.KI        = 0.003f;
-    hDJI[0].posPID.KD        = 0.003f;
-    hDJI[0].posPID.outputMax = 3000;
+    // hDJI[0].posPID.KP        = 0.3f;
+    // hDJI[0].posPID.KI        = 0.003f;
+    // hDJI[0].posPID.KD        = 0.003f;
+    // hDJI[0].posPID.outputMax = 3000;
 
     // hDJI.1 = 前后电机；hDJI.2 = 前后电机
     hDJI[1].speedPID.KP          = 15;
@@ -31,7 +31,7 @@ void DJI_Init()
     hDJI[1].posPID.KP          = 3.0f;
     hDJI[1].posPID.KI          = 0.0001f;
     hDJI[1].posPID.KD          = 0.0f;
-    hDJI[1].posPID.outputMax   = 130000;
+    hDJI[1].posPID.outputMax   = 140000;
     hDJI[1].posPID.integralMax = 100000;
     hDJI[1].posPID.integralMin = -100000;
 
@@ -46,7 +46,7 @@ void DJI_Init()
     hDJI[2].posPID.KP          = 3.0f;
     hDJI[2].posPID.KI          = 0.0001f;
     hDJI[2].posPID.KD          = 0.0f;
-    hDJI[2].posPID.outputMax   = 130000;//140000
+    hDJI[2].posPID.outputMax   = 140000;//140000
     hDJI[2].posPID.integralMax = 100000;
     hDJI[2].posPID.integralMin = -100000;
 
@@ -61,7 +61,7 @@ void DJI_Init()
     hDJI[3].posPID.KI          =1.0f;
     hDJI[3].posPID.KD          = 0.00006f;
     hDJI[3].posPID.integralMax = 100000;
-    hDJI[3].posPID.outputMax   = 5300;
+    hDJI[3].posPID.outputMax   = 6000;
 
     // hDJI.4 = 升降电机
     hDJI[4].speedPID.KP        = 5;
@@ -74,9 +74,9 @@ void DJI_Init()
     hDJI[4].posPID.KD        = 0.0005f;
     hDJI[4].posPID.outputMax = 4600;
 
-    laxian_pid.KP        = 0.6f;//2.4/4.3
-    laxian_pid.KI        = 0.6f;
-    laxian_pid.KD        = 0.013f;
+    laxian_pid.KP        = 1.2f;//2.4/4.3
+    laxian_pid.KI        = 0.9f;
+    laxian_pid.KD        = 0.023f;
     laxian_pid.outputMax = 500;
     laxian_pid.integralMax = 100;//500
     laxian_pid.integralMin = -100;
